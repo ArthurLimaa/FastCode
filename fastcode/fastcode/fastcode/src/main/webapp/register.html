@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Fast Food E-commerce</title>
+  <style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 300px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    button {
+        padding: 10px;
+        font-size: 16px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #218838;
+    }
+    .error {
+        color: #d9534f;
+        margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Cadastro</h1>
+<form id="registerForm" action="create-user" method="post">
+  <div id="error-message" class="error"></div>
+  <input type="text" id="name" name="name" placeholder="Nome" required>
+  <input type="email" id="email" name="email" placeholder="Email" required>
+  <input type="date" id="birthdate" name="birthdate" placeholder="Data de Nascimento" required>
+  <input type="text" id="cpf" name="cpf" placeholder="CPF" required>
+  <input type="text" id="address" name="address" placeholder="Endereço" required>
+  <input type="text" id="cep" name="cep" placeholder="CEP" required>
+  <input type="password" id="password" name="password" placeholder="Senha" required>
+  <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirmar Senha" required>
+  <button type="submit">Cadastrar</button>
+</form>
+
+<script>
+  // Função para validar o CPF
+  function validateCPF(cpf) {
+      cpf = cpf.replace(/[^\d]+/g, ''); // Remove todos os caracteres não numéricos
+      if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false; // Verifica o formato básico e números repetidos
+
+      let sum = 0, remainder;
+
+      // Validação do primeiro dígito verificador
+      for (let i = 1; i <= 9; i++) sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+      remainder = (sum * 10) % 11;
+      if (remainder === 10 || remainder === 11) remainder = 0;
+      if (remainder !== parseInt(cpf.substring(9, 10))) return false;
+
+      // Validação do segundo dígito verificador
+      sum = 0;
+      for (let i = 1; i <= 10; i++) sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+      remainder = (sum * 10) % 11;
+      if (remainder === 10 || remainder === 11) remainder = 0;
+      if (remainder !== parseInt(cpf.substring(10, 11))) return false;
+
+      return true;
+  }
+
+  // Adiciona o evento de submissão ao formulário
+  document.getElementById('registerForm').addEventListener('submit', function(event) {
+      const cpf = document.getElementById('cpf').value;
+
+      // Verifica a validade do CPF
+      if (!validateCPF(cpf)) {
+          event.preventDefault(); // Impede o envio do formulário
+          alert('CPF inválido. Por favor, verifique e tente novamente.');
+          return;
+      }
+
+      // Outras validações podem ser feitas aqui
+
+      // Se o CPF for válido, o formulário será enviado normalmente
+  });
+</script>
+
+</body>
+</html>

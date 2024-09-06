@@ -1,0 +1,5 @@
+br\com\fatcode\CreateFastServlet.class
+br\com\fatcode\dao\UserDAO.class
+br\com\fatcode\LoginServlet.class
+br\com\fatcode\ListUsersServlet.class
+br\com\fatcode\model\User.class
